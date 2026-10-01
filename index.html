@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>나의 서류조회 | 근로복지넷</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<meta name="description" content="근로복지넷 나의 서류조회 — 신청 내역과 처리결과를 확인하고 보완서류를 등록하는 화면 (KRDS 기반 반응형 UI 시안)">
+<meta name="theme-color" content="#063a74">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Crect x='1' y='1' width='8' height='18' rx='2' fill='%23267337'/%3E%3Crect x='11' y='6' width='8' height='13' rx='2' fill='%230b50d0'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<!-- 아이콘 세트: 24px 그리드, 1.8 stroke 라인 아이콘으로 통일 -->
+<svg class="sprite" width="0" height="0" aria-hidden="true">
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-right" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
+  <symbol id="i-left" viewBox="0 0 24 24"><path d="m15 6-6 6 6 6"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M4 11 12 4l8 7v9h-5v-6H9v6H4z"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4.5-6 8-6s7 2 8 6"/></symbol>
+  <symbol id="i-logout" viewBox="0 0 24 24"><path d="M15 4h4v16h-4M10 8l-4 4 4 4M6 12h10"/></symbol>
+  <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .8-1 1.5v.7M12 17v.1"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3 2 20h20z"/><path d="M12 10v4M12 17v.1"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11M4.5 6h.01M4.5 12h.01M4.5 18h.01"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.1"/></symbol>
+  <symbol id="i-camera" viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></symbol>
+  <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 16-5-5-9 9"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 3H6v18h12V7z"/><path d="M14 3v4h4M9 13h6M9 17h4"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></symbol>
+  <symbol id="i-doc" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h3"/></symbol>
+  <symbol id="i-dl" viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a1 1 0 0 1-1 1A16 16 0 0 1 4 5a1 1 0 0 1 1-1z"/></symbol>
+  <symbol id="i-mobile" viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V4M7 9l5-5 5 5M5 20h14"/></symbol>
+  <symbol id="i-inbox" viewBox="0 0 24 24"><path d="M3 13h5l1.5 3h5L16 13h5"/><path d="M5 5h14l2 8v6H3v-6z"/></symbol>
+</svg>
+
+<a class="skip" href="#main">본문 바로가기</a>
+
+<div class="util">
+  <div class="wrap">
+    <div class="util-brand">
+      <a href="#" class="org" aria-label="근로복지공단 홈">
+        <svg class="org-mark" viewBox="0 0 20 20" aria-hidden="true"><rect x="1" y="1" width="8" height="18" rx="2" fill="#138a4f"/><rect x="11" y="6" width="8" height="13" rx="2" fill="#0b50d0"/></svg>근로복지공단</a>
+      <span>일하는 사람들의 삶을 지키는 희망파트너</span>
+    </div>
+    <ul class="util-links">
+      <li><a href="#"><svg class="ico ico-sm"><use href="#i-user"/></svg>마이페이지</a></li>
+      <li><a href="#"><svg class="ico ico-sm"><use href="#i-logout"/></svg>로그아웃</a></li>
+      <li><a href="#"><svg class="ico ico-sm"><use href="#i-help"/></svg>이용안내</a></li>
+      <li><div class="fontsize" role="group" aria-label="글자크기 조절"><span>글자크기</span>
+        <button type="button" data-fs="-1" aria-label="글자 작게">−</button><output id="fsOut" aria-live="polite">100%</output><button type="button" data-fs="1" aria-label="글자 크게">+</button></div></li>
+    </ul>
+  </div>
+</div>
+
+<header class="header">
+  <div class="wrap">
+    <div class="head-row">
+      <a href="#" class="logo" aria-label="근로복지넷 홈"><span class="g">근로</span><span class="b">복지넷</span></a>
+      <form class="search" id="searchForm" role="search">
+        <label for="q" class="sr-only">통합검색</label>
+        <input id="q" name="q" type="search" placeholder="검색어를 입력하세요" autocomplete="off">
+        <button type="submit" aria-label="검색"><svg class="ico ico-lg"><use href="#i-search"/></svg></button>
+      </form>
+      <button type="button" class="icon-btn m-only" id="searchToggle" aria-label="검색 열기" aria-expanded="false" aria-controls="searchForm"><svg class="ico ico-lg"><use href="#i-search"/></svg></button>
+      <button type="button" class="allmenu-btn" id="menuOpen" aria-haspopup="dialog" aria-controls="drawer" aria-label="전체메뉴"><svg class="ico ico-lg"><use href="#i-menu"/></svg><span class="txt">전체메뉴</span></button>
+    </div>
+    <nav class="gnb" aria-label="주메뉴"><ul>
+      <li><a href="#" aria-current="true">서비스신청</a></li><li><a href="#">생활안정자금</a></li><li><a href="#">임금채권</a></li>
+      <li><a href="#">복지·휴양콘도</a></li><li><a href="#">문화예술제</a></li><li><a href="#">근로자지원프로그램(EAP)</a></li>
+    </ul></nav>
+  </div>
+</header>
+
+<div class="wrap layout">
+  <nav class="lnb" aria-labelledby="lnbTitle">
+    <h2 id="lnbTitle">서비스신청</h2>
+    <ul>
+      <li><a href="#">융자 신청<svg class="ico ico-sm"><use href="#i-right"/></svg></a></li>
+      <li><a href="#">휴양콘도 신청<svg class="ico ico-sm"><use href="#i-right"/></svg></a></li>
+      <li><a href="#" aria-current="page">나의 서류조회<span class="tag" id="lnbTag">보완 1</span><svg class="ico ico-sm"><use href="#i-right"/></svg></a></li>
+      <li><a href="#" data-goto-temp>임시저장 내역<svg class="ico ico-sm"><use href="#i-right"/></svg></a></li>
+      <li><a href="#">이용안내<svg class="ico ico-sm"><use href="#i-right"/></svg></a></li>
+    </ul>
+    <div class="lnb-help">
+      <strong><svg class="ico ico-sm"><use href="#i-phone"/></svg>서류 제출이 어려우신가요?</strong>
+      평일 09:00~18:00 상담
+      <a class="tel" href="tel:15880075">1588&#8209;0075</a>
+    </div>
+  </nav>
+
+  <main id="main" class="content" tabindex="-1">
+    <nav class="breadcrumb" aria-label="현재 위치"><ol>
+      <li><a href="#" aria-label="홈"><svg class="ico ico-sm"><use href="#i-home"/></svg></a></li>
+      <li><a href="#">서비스신청</a></li><li><span aria-current="page">나의 서류조회</span></li>
+    </ol></nav>
+
+    <div class="lnb-mobile select">
+      <label for="lnbSel" class="sr-only">서비스신청 하위메뉴</label>
+      <select id="lnbSel"><option>융자 신청</option><option>휴양콘도 신청</option><option selected>나의 서류조회</option><option>임시저장 내역</option><option>이용안내</option></select>
+    </div>
+
+    <h1 class="page-title">나의 서류조회</h1>
+    <p class="page-desc">신청 내역과 처리결과를 확인하고 보완서류를 등록할 수 있습니다.</p>
+
+    <div class="tabs" role="tablist" aria-label="조회 구분">
+      <button type="button" class="tab" role="tab" id="tab-apply" aria-selected="true" aria-controls="panel-apply">신청내역</button>
+      <button type="button" class="tab" role="tab" id="tab-temp" aria-selected="false" aria-controls="panel-temp" tabindex="-1">임시저장<span class="count">1</span></button>
+    </div>
+
+    <section id="panel-apply" role="tabpanel" aria-labelledby="tab-apply">
+      <form class="filter" id="filterForm" aria-label="조회 조건">
+        <label for="svc" class="lbl">서비스</label>
+        <div class="select"><select id="svc"><option value="">전체</option><option>생활안정자금융자</option><option>이차보전추천신청</option><option>휴양콘도 이용</option></select></div>
+        <span class="lbl" id="periodLbl">조회기간</span>
+        <div class="seg" role="group" aria-labelledby="periodLbl">
+          <button type="button" data-m="1" aria-pressed="false">1개월</button><button type="button" data-m="3" aria-pressed="true">3개월</button><button type="button" data-m="6" aria-pressed="false">6개월</button>
+        </div>
+        <button type="submit" class="btn btn-primary btn-search"><svg class="ico"><use href="#i-search"/></svg>조회</button>
+        <p class="range"><svg class="ico ico-sm"><use href="#i-cal"/></svg><span id="rangeTxt"></span></p>
+      </form>
+
+      <!-- 상태 요약: 한눈에 보고 바로 필터 -->
+      <div class="summary" role="group" aria-label="처리상태별 보기">
+        <button type="button" class="sum" data-s="all" aria-pressed="true"><span class="ic"><svg class="ico"><use href="#i-list"/></svg></span><span><span class="t">전체</span><span class="n" data-c="all">0</span></span></button>
+        <button type="button" class="sum" data-s="action" aria-pressed="false"><span class="ic"><svg class="ico"><use href="#i-alert"/></svg></span><span><span class="t">보완 필요</span><span class="n" data-c="action">0</span></span></button>
+        <button type="button" class="sum" data-s="progress" aria-pressed="false"><span class="ic"><svg class="ico"><use href="#i-clock"/></svg></span><span><span class="t">진행 중</span><span class="n" data-c="progress">0</span></span></button>
+        <button type="button" class="sum" data-s="done" aria-pressed="false"><span class="ic"><svg class="ico"><use href="#i-check"/></svg></span><span><span class="t">처리 완료</span><span class="n" data-c="done">0</span></span></button>
+      </div>
+
+      <!-- 보완 요청: 요청 내용 확인 → 서류별로 바로 첨부 → 제출 -->
+      <div id="reqArea"></div>
+
+      <div class="result-head">
+        <h2 id="resultCount" aria-live="polite">조회결과 <b>0건</b></h2>
+        <span class="note">예시 내역</span>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <caption class="sr-only">신청내역: 서비스명, 신청일자, 처리단계, 처리결과, 보증번호/추천번호, 상세조회</caption>
+          <colgroup><col class="c-svc"><col class="c-date"><col class="c-stage"><col class="c-result"><col class="c-no"><col class="c-act"></colgroup>
+          <thead><tr><th scope="col">서비스명</th><th scope="col">신청일자</th><th scope="col">처리단계</th><th scope="col">처리결과</th><th scope="col">보증번호/추천번호</th><th scope="col">상세조회</th></tr></thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+      <ul class="cards" id="cards" aria-label="신청내역 목록"></ul>
+
+      <p class="helper"><svg class="ico ico-sm"><use href="#i-mobile"/></svg>모바일에서는 촬영·갤러리·파일 선택으로 서류를 첨부할 수 있습니다.</p>
+
+      <nav class="pagination" aria-label="페이지 이동">
+        <button type="button" disabled aria-label="이전 페이지"><svg class="ico ico-sm"><use href="#i-left"/></svg></button>
+        <a href="#" aria-current="page" aria-label="1페이지, 현재 페이지">1</a>
+        <button type="button" disabled aria-label="다음 페이지"><svg class="ico ico-sm"><use href="#i-right"/></svg></button>
+      </nav>
+    </section>
+
+    <section id="panel-temp" role="tabpanel" aria-labelledby="tab-temp" hidden>
+      <div class="result-head"><h2>임시저장 <b>1건</b></h2><span class="note">저장일로부터 30일간 보관</span></div>
+      <div class="tbl-wrap"><table>
+        <caption class="sr-only">임시저장 목록</caption>
+        <thead><tr><th scope="col">서비스명</th><th scope="col">저장일자</th><th scope="col">작성단계</th><th scope="col">보관기한</th><th scope="col">관리</th></tr></thead>
+        <tbody><tr><td class="svc"><strong>휴양콘도 이용신청</strong></td><td class="num">2026.09.24</td><td><span class="badge b-progress"><svg class="ico"><use href="#i-clock"/></svg>2/4단계 작성</span></td><td class="num">2026.10.24</td>
+        <td><button class="btn btn-line btn-sm" type="button" data-toast="작성하던 신청서를 이어서 엽니다.">이어쓰기</button></td></tr></tbody>
+      </table></div>
+      <ul class="cards"><li class="card">
+        <div class="card-top"><h3>휴양콘도 이용신청</h3><span class="badge b-progress"><svg class="ico"><use href="#i-clock"/></svg>2/4단계</span></div>
+        <dl class="kv kv-top"><div><dt>저장일자</dt><dd class="num">2026.09.24</dd></div><div><dt>보관기한</dt><dd class="num">2026.10.24</dd></div></dl>
+        <div class="card-actions"><button class="btn btn-primary" type="button" data-toast="작성하던 신청서를 이어서 엽니다.">이어쓰기</button></div>
+      </li></ul>
+    </section>
+  </main>
+</div>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="foot-left">
+      <span class="org"><svg class="org-mark" viewBox="0 0 20 20" aria-hidden="true"><rect x="1" y="1" width="8" height="18" rx="2" fill="#138a4f"/><rect x="11" y="6" width="8" height="13" rx="2" fill="#0b50d0"/></svg>근로복지공단</span>
+      <ul class="foot-links"><li><a href="#">이용약관</a></li><li><a href="#" class="em">개인정보처리방침</a></li><li><a href="#">사이트맵</a></li></ul>
+    </div>
+    <div class="select foot-select"><label for="family" class="sr-only">관련사이트 바로가기</label>
+      <select id="family"><option>관련사이트 바로가기</option><option>근로복지공단</option><option>고용·산재보험 토탈서비스</option><option>고용노동부</option></select></div>
+    <p class="copy">© 근로복지공단. 이 화면은 UI 시안으로 실제 데이터와 연결되어 있지 않습니다.</p>
+  </div>
+</footer>
+
+<!-- 모바일 하단 고정: 보완 필요 시 바로가기 -->
+<div class="dock" id="dock" aria-hidden="true">
+  <p><b>보완서류 제출 필요</b><br><span id="dockTxt"></span></p>
+  <button type="button" class="btn btn-primary" id="dockBtn" tabindex="-1"><svg class="ico"><use href="#i-upload"/></svg>서류 등록</button>
+</div>
+
+<div class="overlay" id="overlay"></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawerTitle">
+  <div class="drawer-head"><h2 id="drawerTitle">전체메뉴</h2><button type="button" class="icon-btn" id="menuClose" aria-label="전체메뉴 닫기"><svg class="ico ico-lg"><use href="#i-close"/></svg></button></div>
+  <div class="drawer-util">
+    <a href="#"><svg class="ico"><use href="#i-user"/></svg>마이페이지</a><a href="#"><svg class="ico"><use href="#i-logout"/></svg>로그아웃</a><a href="#"><svg class="ico"><use href="#i-help"/></svg>이용안내</a>
+  </div>
+  <div class="drawer-body">
+    <details open><summary>서비스신청<svg class="ico"><use href="#i-down"/></svg></summary><ul><li><a href="#">융자 신청</a></li><li><a href="#">휴양콘도 신청</a></li><li><a href="#" aria-current="page">나의 서류조회</a></li><li><a href="#">임시저장 내역</a></li><li><a href="#">이용안내</a></li></ul></details>
+    <details><summary>생활안정자금<svg class="ico"><use href="#i-down"/></svg></summary><ul><li><a href="#">융자 안내</a></li><li><a href="#">신청 자격</a></li><li><a href="#">상환 안내</a></li></ul></details>
+    <details><summary>임금채권<svg class="ico"><use href="#i-down"/></svg></summary><ul><li><a href="#">대지급금 안내</a></li><li><a href="#">체불사업주 융자</a></li></ul></details>
+    <details><summary>복지·휴양콘도<svg class="ico"><use href="#i-down"/></svg></summary><ul><li><a href="#">휴양콘도 안내</a></li><li><a href="#">이용 신청</a></li></ul></details>
+    <details><summary>문화예술제<svg class="ico"><use href="#i-down"/></svg></summary><ul><li><a href="#">행사 안내</a></li><li><a href="#">참가 신청</a></li></ul></details>
+    <details><summary>근로자지원프로그램(EAP)<svg class="ico"><use href="#i-down"/></svg></summary><ul><li><a href="#">프로그램 소개</a></li><li><a href="#">상담 신청</a></li></ul></details>
+  </div>
+</aside>
+
+<div class="modal" id="detailModal" role="dialog" aria-modal="true" aria-labelledby="detailTitle">
+  <div class="modal-bg" data-close></div>
+  <div class="modal-box">
+    <div class="modal-head"><h2 id="detailTitle">신청 상세</h2><button type="button" class="icon-btn" data-close aria-label="닫기"><svg class="ico ico-lg"><use href="#i-close"/></svg></button></div>
+    <div class="modal-body" id="detailBody"></div>
+    <div class="modal-foot" id="detailFoot"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="js/app.js"></script>
+</body>
+</html>
